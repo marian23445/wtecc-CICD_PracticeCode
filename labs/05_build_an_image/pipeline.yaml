@@ -74,3 +74,16 @@ spec:
         value: "Deploying $(params.branch) branch of $(params.repo-url) ..."
       runAfter:
         - build
+
+    - name: build
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+      - name: IMAGE
+        value: "$(params.build-image)"
+      runAfter:
+        - tests
